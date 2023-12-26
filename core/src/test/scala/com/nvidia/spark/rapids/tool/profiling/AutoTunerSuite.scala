@@ -1366,7 +1366,7 @@ class AutoTunerSuite extends FunSuite with BeforeAndAfterEach with Logging {
       mutable.Map("spark.rapids.sql.enabled" -> "true",
         "spark.plugins" -> "com.nvidia.spark.AnotherPlugin, com.nvidia.spark.SQLPlugin",
         "spark.databricks.clusterUsageTags.sparkVersion" -> "11.3.x-gpu-ml-scala2.12"),
-      Some("3.2.0"), Seq())
+      Some("3.3.0"), Seq())
     val autoTuner = AutoTuner.buildAutoTunerFromProps(databricksWorkerInfo,
       infoProvider, "databricks")
     val smVersion = autoTuner.getShuffleManagerClassName()
