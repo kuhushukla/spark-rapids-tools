@@ -1357,4 +1357,15 @@ class AutoTunerSuite extends FunSuite with BeforeAndAfterEach with Logging {
     // scalastyle:on line.size.limit
     assert(expectedResults == autoTunerOutput)
   }
+
+  test("test shuffle manager version for databricks") {
+    val customProps = mutable.LinkedHashMap(
+      "spark.databricks.clusterUsageTags.sparkVersion" -> "11.3.x-gpu-ml-scala2.12")
+    val databricksWorkerInfo = buildWorkerInfoAsString(Some(customProps))
+    val autoTuner = AutoTuner.buildAutoTunerFromProps(databricksWorkerInfo,
+      getGpuAppMockInfoProvider, "databricks")
+    val smVersion = autoTuner.getShuffleManagerVersion()
+    // Assert shuffle manager string for DB 11.3 tag
+    assert(smVersion, "com.nvidia.spark.rapids.spark330db.RapidsShuffleManager")
+  }
 }

@@ -597,20 +597,9 @@ class AutoTuner(
   }
 
   def calculateJobLevelRecommendations(): Unit = {
-    val shuffleManagerVersion = appInfoProvider.getSparkVersion.get.filterNot("().".toSet)
-    val finalShuffleVersion = if (platform.contains("databricks")) {
-      val dbVersion = appInfoProvider.getProperty(
-        "spark.databricks.clusterUsageTags.sparkVersion").getOrElse("")
-      if (dbVersion.contains("10.4")) {
-        "321db"
-      } else if (dbVersion.contains("11.3")) {
-        "330db"
-      } else {
-        "332db"
-      }
-    } else shuffleManagerVersion
-     appendRecommendation("spark.shuffle.manager",
-       "com.nvidia.spark.rapids.spark" + finalShuffleVersion + ".RapidsShuffleManager")
+    val finalShuffleVersion = getShuffleManagerVersion
+    appendRecommendation("spark.shuffle.manager",
+       smClassName)
     appendComment(classPathComments("rapids.shuffle.jars"))
 
     recommendFileCache()
@@ -618,6 +607,20 @@ class AutoTuner(
     recommendShufflePartitions()
     recommendGCProperty()
     recommendClassPathEntries()
+  }
+
+  protected def getShuffleManagerClassName : String = {
+    val shuffleManagerVersion = appInfoProvider.getSparkVersion.get.filterNot("().".toSet)
+    val finalShuffleVersion : String = if (platform.contains("databricks")) {
+      val dbVersion = appInfoProvider.getProperty(
+        "spark.databricks.clusterUsageTags.sparkVersion").getOrElse("")
+      dbVersion match {
+        case ver if ver.contains("10.4") => "321db"
+        case ver if ver.contains("11.3") => "330db"
+        case _ => "332db"
+      }
+    } else shuffleManagerVersion
+    "com.nvidia.spark.rapids.spark" + finalShuffleVersion + ".RapidsShuffleManager"
   }
 
   /**
