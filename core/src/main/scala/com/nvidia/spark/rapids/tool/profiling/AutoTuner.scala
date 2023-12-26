@@ -597,9 +597,8 @@ class AutoTuner(
   }
 
   def calculateJobLevelRecommendations(): Unit = {
-    val finalShuffleVersion = getShuffleManagerVersion
-    appendRecommendation("spark.shuffle.manager",
-       smClassName)
+    val smClassName = getShuffleManagerClassName
+    appendRecommendation("spark.shuffle.manager", smClassName)
     appendComment(classPathComments("rapids.shuffle.jars"))
 
     recommendFileCache()
