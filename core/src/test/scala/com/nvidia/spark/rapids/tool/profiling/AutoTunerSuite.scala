@@ -1366,6 +1366,6 @@ class AutoTunerSuite extends FunSuite with BeforeAndAfterEach with Logging {
       getGpuAppMockInfoProvider, "databricks")
     val smVersion = autoTuner.getShuffleManagerClassName()
     // Assert shuffle manager string for DB 11.3 tag
-    assert(smVersion, "com.nvidia.spark.rapids.spark330db.RapidsShuffleManager")
+    assert(smVersion == "com.nvidia.spark.rapids.spark330db.RapidsShuffleManager")
   }
 }
