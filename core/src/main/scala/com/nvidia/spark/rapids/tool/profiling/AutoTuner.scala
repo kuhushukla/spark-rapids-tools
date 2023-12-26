@@ -608,7 +608,7 @@ class AutoTuner(
     recommendClassPathEntries()
   }
 
-  def getShuffleManagerClassName : String = {
+  def getShuffleManagerClassName() : String = {
     val shuffleManagerVersion = appInfoProvider.getSparkVersion.get.filterNot("().".toSet)
     val finalShuffleVersion : String = if (platform.contains("databricks")) {
       val dbVersion = appInfoProvider.getProperty(
