@@ -1509,7 +1509,7 @@ class AutoTunerSuite extends FunSuite with BeforeAndAfterEach with Logging {
   }
 
   test("test shuffle manager version for databricks") {
-    val databricksWorkerInfo = buildWorkerInfoAsString
+    val databricksWorkerInfo = buildWorkerInfoAsString(None)
     val infoProvider = getMockInfoProvider(0, Seq(0), Seq(0.0),
       mutable.Map("spark.rapids.sql.enabled" -> "true",
         "spark.plugins" -> "com.nvidia.spark.AnotherPlugin, com.nvidia.spark.SQLPlugin",
@@ -1524,7 +1524,7 @@ class AutoTunerSuite extends FunSuite with BeforeAndAfterEach with Logging {
   }
 
   test("test shuffle manager version for non-databricks") {
-    val databricksWorkerInfo = buildWorkerInfoAsString
+    val databricksWorkerInfo = buildWorkerInfoAsString(None)
     val infoProvider = getMockInfoProvider(0, Seq(0), Seq(0.0),
       mutable.Map("spark.rapids.sql.enabled" -> "true",
         "spark.plugins" -> "com.nvidia.spark.AnotherPlugin, com.nvidia.spark.SQLPlugin"),
