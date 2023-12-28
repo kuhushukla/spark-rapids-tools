@@ -606,7 +606,7 @@ class AutoTuner(
     val shuffleManagerVersion = appInfoProvider.getSparkVersion.get.filterNot("().".toSet)
     val dbVersion = appInfoProvider.getProperty(
       "spark.databricks.clusterUsageTags.sparkVersion").getOrElse("")
-    val finalShuffleVersion : String = if (dbVersion.nonEmpty()) {
+    val finalShuffleVersion : String = if (dbVersion.nonEmpty) {
       dbVersion match {
         case ver if ver.contains("10.4") => "321db"
         case ver if ver.contains("11.3") => "330db"
